@@ -2,6 +2,7 @@ require('dotenv').config();
 // Import the framework and instantiate it
 import Fastify from 'fastify';
 import 'dotenv/config';
+
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const fastify = Fastify({
 	logger: true,
@@ -20,9 +21,7 @@ const sequelize = new Sequelize(
 );
 
 // Declare a route
-fastify.get('/', async function handler(request, reply) {
-	return { hello: 'world' };
-});
+fastify.register(require('./routes'));
 
 // Run the server!
 const port = parseInt(process.env.PORT ?? '3000');
