@@ -10,9 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerController = void 0;
+const user_model_1 = require("../../models/user.model");
 const registerController = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = request.body;
     try {
+        const a = user_model_1.User.findAll();
+        console.log(a);
         return reply.send({ email, password, text: 'OK' });
     }
     catch (error) {
