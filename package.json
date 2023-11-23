@@ -1,0 +1,29 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "start": "yarn run build && node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mojde.pajang/blog.git"
+  },
+  "keywords": [
+    "Blog"
+  ],
+  "author": "Mojdeh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/mojde.pajang/blog/issues"
+  },
+  "homepage": "https://gitlab.com/mojde.pajang/blog#readme",
+  "devDependencies": {
+    "@types/node": "^20.9.4",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.2"
+  }
+}
