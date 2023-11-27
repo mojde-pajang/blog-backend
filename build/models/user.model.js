@@ -44,8 +44,6 @@ User.init({
         validate: {
             min: 8,
         },
-        set(value) { },
-        get() { },
     },
 }, {
     sequelize: index_1.sequelize,

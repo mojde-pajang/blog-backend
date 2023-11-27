@@ -9,29 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerController = void 0;
+exports.loginController = void 0;
 const __1 = require("../..");
 const user_model_1 = require("../../models/user.model");
-const registerController = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, age, email, password } = request.body;
+const loginController = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = request.body;
     try {
-        const userExists = yield user_model_1.User.findOne({ where: { email: email } });
-        if (userExists) {
-            __1.fastify.log.error('Duplicate user');
-            return reply.status(400).send({ message: 'user exists' });
+        const user = yield user_model_1.User.findOne({ raw: true, where: { email } });
+        console.log(22, user);
+        if (user) {
+            console.log(user);
+            const result = yield __1.fastify.bcrypt.compare(password, user.password);
+            console.log(result);
+            return reply.status(200).send({ message: user });
         }
-        const hashedPassword = yield __1.fastify.bcrypt.hash(password);
-        const newUser = yield user_model_1.User.create({
-            firstName,
-            lastName,
-            age,
-            email,
-            password: hashedPassword,
-        });
-        return reply.status(200).send({ newUser });
+        return reply.status(400).send({ message: 'Invalid credential' });
     }
     catch (error) {
-        console.log(error);
+        __1.fastify.log.error(error);
     }
 });
-exports.registerController = registerController;
+exports.loginController = loginController;
