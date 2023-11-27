@@ -1,11 +1,16 @@
 require('dotenv').config();
 // Import the framework and instantiate it
 import Fastify from 'fastify';
+import { fastifyBcrypt } from 'fastify-bcrypt';
 import 'dotenv/config';
 
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
-const fastify = Fastify({
+export const fastify = Fastify({
 	logger: true,
+});
+
+fastify.register(fastifyBcrypt, {
+	saltWorkFactor: 12,
 });
 
 export const sequelize = new Sequelize(

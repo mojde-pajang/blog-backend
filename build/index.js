@@ -4,14 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sequelize = void 0;
+exports.sequelize = exports.fastify = void 0;
 require('dotenv').config();
 // Import the framework and instantiate it
 const fastify_1 = __importDefault(require("fastify"));
+const fastify_bcrypt_1 = require("fastify-bcrypt");
 require("dotenv/config");
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
-const fastify = (0, fastify_1.default)({
+exports.fastify = (0, fastify_1.default)({
     logger: true,
+});
+exports.fastify.register(fastify_bcrypt_1.fastifyBcrypt, {
+    saltWorkFactor: 12,
 });
 exports.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
     dialect: 'postgres',
@@ -20,10 +24,10 @@ exports.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABAS
     database: process.env.DATABASE_NAME,
 });
 // Declare a route
-fastify.register(require('./routes'));
+exports.fastify.register(require('./routes'));
 // Run the server!
 const port = parseInt((_a = process.env.PORT) !== null && _a !== void 0 ? _a : '3000');
-fastify
+exports.fastify
     .listen({ port })
     .then(() => {
     return exports.sequelize.authenticate();
@@ -33,5 +37,5 @@ fastify
     console.log('server runs in http://localhost:3000');
 })
     .catch((err) => {
-    fastify.log.error(err);
+    exports.fastify.log.error(err);
 });

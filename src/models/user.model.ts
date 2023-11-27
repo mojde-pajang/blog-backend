@@ -5,7 +5,7 @@ export class User extends Model {}
 
 User.init(
 	{
-		userId: {
+		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
@@ -42,6 +42,8 @@ User.init(
 			validate: {
 				min: 8,
 			},
+			set(value: string) {},
+			get() {},
 		},
 	},
 	{
@@ -49,7 +51,7 @@ User.init(
 	},
 );
 
-User.sync()
+User.sync({ alter: true })
 	.then(() => {
 		console.log(User === sequelize.models.User);
 	})

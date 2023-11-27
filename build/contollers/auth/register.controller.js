@@ -10,13 +10,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerController = void 0;
+const __1 = require("../..");
 const user_model_1 = require("../../models/user.model");
 const registerController = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = request.body;
+    const { firstName, lastName, age, email, password } = request.body;
     try {
-        const a = user_model_1.User.findAll();
-        console.log(a);
-        return reply.send({ email, password, text: 'OK' });
+        const userExists = yield user_model_1.User.findOne({ where: { email: email } });
+        console.log(123, userExists);
+        if (userExists) {
+            __1.fastify.log.error('Duplicate user');
+            return reply.status(400).send({ message: 'user exists' });
+        }
+        const hashedPassword = yield __1.fastify.bcrypt.hash(password);
+        const newUser = yield user_model_1.User.create({
+            firstName,
+            lastName,
+            age,
+            email,
+            password: hashedPassword,
+        });
+        return reply.status(200).send({ newUser });
     }
     catch (error) {
         console.log(error);
