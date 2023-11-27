@@ -23,18 +23,26 @@ exports.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABAS
     port: process.env.DATABASE_PORT,
     database: process.env.DATABASE_NAME,
 });
-// Declare a route
+// Declare a plugins
+exports.fastify.register(require('./plugins/auth'));
+// Declare a routes
 exports.fastify.register(require('./routes'));
 // Run the server!
 const port = parseInt((_a = process.env.PORT) !== null && _a !== void 0 ? _a : '3000');
 exports.fastify
     .listen({ port })
     .then(() => {
+    console.log(`********************************
+		****************************************************************
+		*********************************************`);
     return exports.sequelize.authenticate();
 })
     .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log(`Connection has been established successfully.`);
     console.log('server runs in http://localhost:3000');
+    console.log(`********************************
+		****************************************************************
+		*********************************************`);
 })
     .catch((err) => {
     exports.fastify.log.error(err);

@@ -8,21 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function routes(fastify, options) {
+const fp = require('fastify-plugin');
+module.exports = fp(function (fastify, opts, done) {
     return __awaiter(this, void 0, void 0, function* () {
-        fastify.register(require('./auth.routes'), { prefix: '/auth' });
-        fastify.get('/', {
-            onRequest: [fastify.authenticate],
-        }, function (request, reply) {
+        fastify.register(require('@fastify/jwt'), {
+            secret: 'supersecret',
+        });
+        fastify.decorate('authenticate', function (request, reply) {
             return __awaiter(this, void 0, void 0, function* () {
-                return reply.send({ hello: 'world' });
+                try {
+                    yield request.jwtVerify();
+                }
+                catch (err) {
+                    reply.send(err);
+                }
             });
         });
-        fastify.get('/log', function (request, reply) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return reply.send({ hello: 'Log' });
-            });
-        });
+        done();
     });
-}
-module.exports = routes;
+});

@@ -16,12 +16,11 @@ const loginController = (request, reply) => __awaiter(void 0, void 0, void 0, fu
     const { email, password } = request.body;
     try {
         const user = yield user_model_1.User.findOne({ raw: true, where: { email } });
-        console.log(22, user);
         if (user) {
-            console.log(user);
             const result = yield __1.fastify.bcrypt.compare(password, user.password);
-            console.log(result);
-            return reply.status(200).send({ message: user });
+            if (result) {
+                return reply.status(200).send({ message: user });
+            }
         }
         return reply.status(400).send({ message: 'Invalid credential' });
     }

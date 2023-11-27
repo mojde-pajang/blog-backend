@@ -10,7 +10,6 @@ export const registerController = async (request: any, reply: any) => {
 			return reply.status(400).send({ message: 'user exists' });
 		}
 		const hashedPassword = await fastify.bcrypt.hash(password);
-		console.log(66, hashedPassword);
 		const newUser = await User.create({
 			firstName,
 			lastName,

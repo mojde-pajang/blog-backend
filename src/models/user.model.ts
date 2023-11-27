@@ -43,6 +43,9 @@ User.init(
 				min: 8,
 			},
 		},
+		token: {
+			type: DataTypes.STRING,
+		},
 	},
 	{
 		sequelize,
