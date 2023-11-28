@@ -1,3 +1,4 @@
+import { allPosts } from '../contollers/post/all.post.controller';
 import { createPost } from '../contollers/post/create.post.controller';
 
 async function postRoutes(fastify: any, options: any) {
@@ -8,6 +9,7 @@ async function postRoutes(fastify: any, options: any) {
 		},
 		createPost,
 	);
+	fastify.get('/all', allPosts);
 }
 
 module.exports = postRoutes;
