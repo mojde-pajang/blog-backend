@@ -13,7 +13,6 @@ export const registerController = async (request: any, reply: any) => {
 			return reply.status(400).send({ message: 'user exists' });
 		}
 		let role = await Role.findOne({ where: { roleName: userRole } });
-		console.log(66666, role);
 		if (!role) {
 			role = await Role.findOrCreate({ where: { roleName: 'Visitor' } });
 		}
@@ -25,7 +24,6 @@ export const registerController = async (request: any, reply: any) => {
 			email,
 			password: hashedPassword,
 		});
-		console.log(77777, role);
 		role.setUser(newUser);
 		return reply.status(200).send({ newUser });
 	} catch (error) {

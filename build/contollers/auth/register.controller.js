@@ -23,7 +23,6 @@ const registerController = (request, reply) => __awaiter(void 0, void 0, void 0,
             return reply.status(400).send({ message: 'user exists' });
         }
         let role = yield role_model_1.Role.findOne({ where: { roleName: userRole } });
-        console.log(66666, role);
         if (!role) {
             role = yield role_model_1.Role.findOrCreate({ where: { roleName: 'Visitor' } });
         }
@@ -35,7 +34,6 @@ const registerController = (request, reply) => __awaiter(void 0, void 0, void 0,
             email,
             password: hashedPassword,
         });
-        console.log(77777, role);
         role.setUser(newUser);
         return reply.status(200).send({ newUser });
     }
