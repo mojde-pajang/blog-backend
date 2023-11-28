@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const index_1 = require("./../index");
+const role_model_1 = require("./role.model");
 const { DataTypes, Model } = require('sequelize');
 class User extends Model {
 }
@@ -51,6 +52,8 @@ User.init({
 }, {
     sequelize: index_1.sequelize,
 });
+role_model_1.Role.hasOne(User);
+User.belongsTo(role_model_1.Role);
 User.sync({ alter: true })
     .then(() => {
     console.log(User === index_1.sequelize.models.User);

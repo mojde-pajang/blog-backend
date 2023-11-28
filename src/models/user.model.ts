@@ -1,4 +1,5 @@
 import { sequelize } from './../index';
+import { Role } from './role.model';
 const { DataTypes, Model } = require('sequelize');
 
 export class User extends Model {}
@@ -51,6 +52,9 @@ User.init(
 		sequelize,
 	},
 );
+
+Role.hasOne(User);
+User.belongsTo(Role);
 
 User.sync({ alter: true })
 	.then(() => {
