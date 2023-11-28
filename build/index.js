@@ -9,6 +9,7 @@ require('dotenv').config();
 // Import the framework and instantiate it
 const fastify_1 = __importDefault(require("fastify"));
 const fastify_bcrypt_1 = require("fastify-bcrypt");
+const jwt_1 = require("@fastify/jwt");
 require("dotenv/config");
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 exports.fastify = (0, fastify_1.default)({
@@ -16,6 +17,9 @@ exports.fastify = (0, fastify_1.default)({
 });
 exports.fastify.register(fastify_bcrypt_1.fastifyBcrypt, {
     saltWorkFactor: 12,
+});
+exports.fastify.register(jwt_1.fastifyJwt, {
+    secret: 'supersecret',
 });
 exports.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
     dialect: 'postgres',

@@ -11,9 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const fp = require('fastify-plugin');
 module.exports = fp(function (fastify, opts, done) {
     return __awaiter(this, void 0, void 0, function* () {
-        fastify.register(require('@fastify/jwt'), {
-            secret: 'supersecret',
-        });
         fastify.decorate('authenticate', function (request, reply) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {

@@ -2,6 +2,7 @@ require('dotenv').config();
 // Import the framework and instantiate it
 import Fastify from 'fastify';
 import { fastifyBcrypt } from 'fastify-bcrypt';
+import { fastifyJwt } from '@fastify/jwt';
 import 'dotenv/config';
 
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
@@ -11,6 +12,10 @@ export const fastify = Fastify({
 
 fastify.register(fastifyBcrypt, {
 	saltWorkFactor: 12,
+});
+
+fastify.register(fastifyJwt, {
+	secret: 'supersecret',
 });
 
 export const sequelize = new Sequelize(
