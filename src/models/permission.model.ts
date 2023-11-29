@@ -1,31 +1,22 @@
 import { sequelize } from './../index';
-import { Permission } from './permission.model';
 const { DataTypes, Model } = require('sequelize');
 
-export class Role extends Model {}
+export class Permission extends Model {}
 
-Role.init(
+Permission.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
-		roleName: {
+		permissionName: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
-			validate: {
-				is: /^[a-zA-Z]*/gm,
-			},
 		},
-		read: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: true,
-		},
-		write: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: false,
+		description: {
+			type: DataTypes.STRING,
 		},
 	},
 	{
@@ -33,7 +24,7 @@ Role.init(
 	},
 );
 
-Role.sync({ alter: true })
+Permission.sync({ alter: true })
 	// .then(() => {
 	// 	return Role.bulkCreate([
 	// 		{
@@ -46,8 +37,6 @@ Role.sync({ alter: true })
 	// 	]);
 	// })
 	.then(() => {
-		Permission.belongsToMany(Role, { through: 'rolePermission' });
-		Role.belongsToMany(Permission, { through: 'rolePermission' });
-		console.log(Role === sequelize.models.Role, 'Role model created');
+		console.log('Permission role association model created');
 	})
 	.catch((err: any) => console.log(err));
