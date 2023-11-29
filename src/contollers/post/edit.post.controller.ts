@@ -17,7 +17,6 @@ export const editPost = async (request: any, reply: any) => {
 					id: id,
 				},
 			});
-			console.log(89, updatedPost);
 			return reply.status(StatusCodes.OK).send({ updatedPost });
 		}
 		const post = await Post.findOne({
