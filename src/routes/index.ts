@@ -10,6 +10,7 @@ async function routes(fastify: any, options: any) {
 			return reply.send({ hello: 'world' });
 		},
 	);
+
 	fastify.get('/log', async function (request: any, reply: any) {
 		return reply.send({ hello: 'Log' });
 	});

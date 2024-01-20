@@ -10,6 +10,7 @@ Permission.init(
 			autoIncrement: true,
 			primaryKey: true,
 		},
+
 		permissionName: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -39,4 +40,5 @@ Permission.sync({ alter: true })
 	.then(() => {
 		console.log('Permission role association model created');
 	})
+	.then((data: any) => console.log(data))
 	.catch((err: any) => console.log(err));

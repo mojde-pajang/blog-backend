@@ -19,13 +19,8 @@ Role.init(
 				is: /^[a-zA-Z]*/gm,
 			},
 		},
-		read: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: true,
-		},
-		write: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: false,
+		description: {
+			type: DataTypes.STRING,
 		},
 	},
 	{
@@ -34,17 +29,6 @@ Role.init(
 );
 
 Role.sync({ alter: true })
-	// .then(() => {
-	// 	return Role.bulkCreate([
-	// 		{
-	// 			roleName: 'Admin',
-	// 			write: true,
-	// 		},
-	// 		{
-	// 			roleName: 'Visitor',
-	// 		},
-	// 	]);
-	// })
 	.then(() => {
 		Permission.belongsToMany(Role, { through: 'rolePermission' });
 		Role.belongsToMany(Permission, { through: 'rolePermission' });

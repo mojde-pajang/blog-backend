@@ -3,6 +3,7 @@ require('dotenv').config();
 import Fastify from 'fastify';
 import { fastifyBcrypt } from 'fastify-bcrypt';
 import { fastifyJwt } from '@fastify/jwt';
+import cors from '@fastify/cors';
 import 'dotenv/config';
 
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
@@ -16,6 +17,12 @@ fastify.register(fastifyBcrypt, {
 
 fastify.register(fastifyJwt, {
 	secret: 'supersecret',
+});
+
+fastify.register(cors, {
+	origin: '*',
+	methods: ['GET', 'POST'],
+	credentials: true,
 });
 
 export const sequelize = new Sequelize(
