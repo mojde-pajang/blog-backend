@@ -4,6 +4,8 @@ import Fastify from 'fastify';
 import { fastifyBcrypt } from 'fastify-bcrypt';
 import { fastifyJwt } from '@fastify/jwt';
 import cors from '@fastify/cors';
+import * as fs from 'fs-extra';
+import path from 'path';
 import 'dotenv/config';
 
 const { Sequelize, DataTypes, Model, Op } = require('sequelize');
@@ -24,6 +26,12 @@ fastify.register(cors, {
 	methods: ['GET', 'POST'],
 	credentials: true,
 });
+
+fastify.register(require('@fastify/multipart'));
+
+// Set up the uploads folder
+export const uploadsFolder = path.join(__dirname, 'uploads');
+fs.ensureDirSync(uploadsFolder);
 
 export const sequelize = new Sequelize(
 	process.env.DATABASE_NAME,
