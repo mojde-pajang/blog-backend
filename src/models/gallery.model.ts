@@ -1,23 +1,20 @@
 import { sequelize } from './../index';
-import { User } from './user.model';
+import { Post } from './post.model';
 const { DataTypes, Model } = require('sequelize');
 
-export class Post extends Model {}
+export class Gallery extends Model {}
 
-Post.init(
+Gallery.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
-		title: {
+		name: {
 			type: DataTypes.STRING,
 		},
-		description: {
-			type: DataTypes.TEXT,
-		},
-		image: {
+		imageUrl: {
 			type: DataTypes.STRING,
 		},
 	},
@@ -26,10 +23,10 @@ Post.init(
 	},
 );
 
-User.hasMany(Post);
-Post.belongsTo(User);
+Gallery.hasOne(Post);
+Post.belongsTo(Gallery);
 
-Post.sync({ alter: true })
+Gallery.sync({ alter: true })
 	// .then(() => {
 	// 	return Role.bulkCreate([
 	// 		{
@@ -42,6 +39,6 @@ Post.sync({ alter: true })
 	// 	]);
 	// })
 	.then(() => {
-		console.log(Post === sequelize.models.Post, 'Post model created');
+		console.log(Gallery === sequelize.models.Gallery, 'Gallery model created');
 	})
 	.catch((err: any) => console.log(err));

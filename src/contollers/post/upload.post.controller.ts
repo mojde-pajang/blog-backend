@@ -1,18 +1,25 @@
 import { uploadsFolder } from '../..';
 import path from 'path';
 import * as fs from 'fs-extra';
+import { Gallery } from '../../models/gallery.model';
 
 export const uploadPostImage = async (request: any, reply: any) => {
 	try {
 		const data = await request.file();
-		const { filename, file } = data;
+		const { filename } = data;
 
 		// Convert the file stream to a Buffer
 		const fileBuffer = await data.toBuffer();
 
 		// Save the file to the uploads folder
 		const filePath = path.join(uploadsFolder, filename);
-		await fs.writeFile(filePath, fileBuffer);
+		const uploaded = await fs.writeFile(filePath, fileBuffer);
+
+		// Construct the URL based on server address and relative path
+		console.log(request.protocol, request.hostname, request.server);
+		const fileUrl = `${request.protocol}://${request.hostname}:3000/uploads/${filename}`;
+
+		const newImage = await Gallery.create({ name: filename, imageUrl: fileUrl });
 
 		reply.code(201).send({ success: true, message: 'File uploaded successfully' });
 	} catch (error) {

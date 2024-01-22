@@ -8,7 +8,7 @@ import * as fs from 'fs-extra';
 import path from 'path';
 import 'dotenv/config';
 
-const { Sequelize, DataTypes, Model, Op } = require('sequelize');
+const { Sequelize } = require('sequelize');
 export const fastify = Fastify({
 	logger: true,
 });
@@ -30,8 +30,14 @@ fastify.register(cors, {
 fastify.register(require('@fastify/multipart'));
 
 // Set up the uploads folder
-export const uploadsFolder = path.join(__dirname, 'uploads');
+export const uploadsFolder = path.join(__dirname, '..', 'public/uploads');
 fs.ensureDirSync(uploadsFolder);
+
+// Serve the uploads folder as a static directory
+fastify.register(require('@fastify/static'), {
+	root: uploadsFolder,
+	prefix: '/uploads',
+});
 
 export const sequelize = new Sequelize(
 	process.env.DATABASE_NAME,
