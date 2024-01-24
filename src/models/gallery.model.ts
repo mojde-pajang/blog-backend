@@ -23,21 +23,7 @@ Gallery.init(
 	},
 );
 
-Gallery.hasOne(Post);
-Post.belongsTo(Gallery);
-
 Gallery.sync({ alter: true })
-	// .then(() => {
-	// 	return Role.bulkCreate([
-	// 		{
-	// 			roleName: 'Admin',
-	// 			write: true,
-	// 		},
-	// 		{
-	// 			roleName: 'Visitor',
-	// 		},
-	// 	]);
-	// })
 	.then(() => {
 		console.log(Gallery === sequelize.models.Gallery, 'Gallery model created');
 	})

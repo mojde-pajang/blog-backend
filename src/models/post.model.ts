@@ -1,4 +1,5 @@
 import { sequelize } from './../index';
+import { Gallery } from './gallery.model';
 import { User } from './user.model';
 const { DataTypes, Model } = require('sequelize');
 
@@ -17,9 +18,6 @@ Post.init(
 		description: {
 			type: DataTypes.TEXT,
 		},
-		image: {
-			type: DataTypes.STRING,
-		},
 	},
 	{
 		sequelize,
@@ -28,6 +26,9 @@ Post.init(
 
 User.hasMany(Post);
 Post.belongsTo(User);
+
+Gallery.hasOne(Post);
+Post.belongsTo(Gallery);
 
 Post.sync({ alter: true })
 	// .then(() => {

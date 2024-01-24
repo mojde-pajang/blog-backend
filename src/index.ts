@@ -27,7 +27,7 @@ fastify.register(cors, {
 	credentials: true,
 });
 
-fastify.register(require('@fastify/multipart'));
+fastify.register(require('@fastify/multipart'), { attachFieldsToBody: true });
 
 // Set up the uploads folder
 export const uploadsFolder = path.join(__dirname, '..', 'public/uploads');

@@ -17,11 +17,11 @@ export const uploadPostImage = async (request: any, reply: any) => {
 
 		// Construct the URL based on server address and relative path
 		console.log(request.protocol, request.hostname, request.server);
-		const fileUrl = `${request.protocol}://${request.hostname}:3000/uploads/${filename}`;
+		const fileUrl = `${request.protocol}://${request.hostname}/uploads/${filename}`;
 
 		const newImage = await Gallery.create({ name: filename, imageUrl: fileUrl });
 
-		reply.code(201).send({ success: true, message: 'File uploaded successfully' });
+		reply.code(201).send({ success: true, message: 'File uploaded successfully', image: newImage });
 	} catch (error) {
 		console.error(error);
 		reply.code(500).send({ success: false, message: 'Internal Server Error' });
