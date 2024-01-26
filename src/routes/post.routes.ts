@@ -1,3 +1,4 @@
+import { createPostWithAI } from '../contollers/post/AI.create.post.controlle';
 import { allPosts } from '../contollers/post/all.post.controller';
 import { createPost } from '../contollers/post/create.post.controller';
 import { deletePost } from '../contollers/post/delete.post.controller';
@@ -12,6 +13,13 @@ async function postRoutes(fastify: any, options: any) {
 			onRequest: [fastify.authenticate, fastify.isAdmin],
 		},
 		createPost,
+	);
+	fastify.post(
+		'/ai',
+		{
+			onRequest: [fastify.authenticate, fastify.isAdmin],
+		},
+		createPostWithAI,
 	);
 	fastify.get('/all', allPosts);
 	fastify.get('/:id', detailPost);
