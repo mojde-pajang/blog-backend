@@ -15,7 +15,7 @@ Gallery.init(
 			type: DataTypes.STRING,
 		},
 		imageUrl: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 		},
 	},
 	{

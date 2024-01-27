@@ -13,6 +13,12 @@ export const fastify = Fastify({
 	logger: true,
 });
 
+declare module 'fastify' {
+	interface FastifyInstance {
+		axios: any;
+	}
+}
+
 fastify.register(fastifyBcrypt, {
 	saltWorkFactor: 12,
 });
@@ -26,6 +32,8 @@ fastify.register(cors, {
 	methods: ['GET', 'POST'],
 	credentials: true,
 });
+
+fastify.register(require('fastify-axios'));
 
 fastify.register(require('@fastify/multipart'), { attachFieldsToBody: true });
 
