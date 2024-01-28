@@ -28,7 +28,7 @@ export const createPostWithAI = async (request: any, reply: any) => {
 				messages: [
 					{
 						role: 'system',
-						content: title + 'return the result in JSON format with 2 fields of Title and Introduction',
+						content: title + 'return the result in JSON format with 2 fields of title and introduction',
 					},
 				],
 				model: 'gpt-3.5-turbo',
@@ -50,8 +50,8 @@ export const createPostWithAI = async (request: any, reply: any) => {
 			const content = completion.choices[0].message.content;
 			const a = JSON.parse(content ? content : '');
 			if (content) {
-				const postTitle = JSON.parse(content)?.title;
-				const postIntroduction = JSON.parse(content)?.introduction;
+				const postTitle = a?.title;
+				const postIntroduction = a?.introduction;
 				const payload: payload = {
 					title: postTitle,
 					description: postIntroduction,
