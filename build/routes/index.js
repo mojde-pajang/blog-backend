@@ -11,9 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 function routes(fastify, options) {
     return __awaiter(this, void 0, void 0, function* () {
         fastify.register(require('./auth.routes'), { prefix: '/auth' });
-        fastify.get('/', {
-            onRequest: [fastify.authenticate],
-        }, function (request, reply) {
+        fastify.register(require('./post.routes'), { prefix: '/post' });
+        fastify.get('/', function (request, reply) {
             return __awaiter(this, void 0, void 0, function* () {
                 return reply.send({ hello: 'world' });
             });

@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+const role_model_1 = require("../models/role.model");
+const user_model_1 = require("../models/user.model");
 const fp = require('fastify-plugin');
 module.exports = fp(function (fastify, opts, done) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -18,6 +21,19 @@ module.exports = fp(function (fastify, opts, done) {
                 }
                 catch (err) {
                     reply.send(err);
+                }
+            });
+        });
+        fastify.decorate('isAdmin', function (request, reply) {
+            return __awaiter(this, void 0, void 0, function* () {
+                //const decodedToken = fastify.jwt.decode(token);
+                try {
+                    const { email } = yield request.jwtDecode();
+                    const user = yield user_model_1.User.findOne({ where: { email: email }, include: role_model_1.Role });
+                    return (request.isAdmin = 'Admin' === user.Role.roleName);
+                }
+                catch (err) {
+                    reply.status(401).send(err);
                 }
             });
         });

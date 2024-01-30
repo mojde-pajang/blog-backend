@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Role = void 0;
 const index_1 = require("./../index");
+const permission_model_1 = require("./permission.model");
 const { DataTypes, Model } = require('sequelize');
 class Role extends Model {
 }
@@ -20,30 +21,16 @@ Role.init({
             is: /^[a-zA-Z]*/gm,
         },
     },
-    read: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-    },
-    write: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+    description: {
+        type: DataTypes.STRING,
     },
 }, {
     sequelize: index_1.sequelize,
 });
 Role.sync({ alter: true })
-    // .then(() => {
-    // 	return Role.bulkCreate([
-    // 		{
-    // 			roleName: 'Admin',
-    // 			write: true,
-    // 		},
-    // 		{
-    // 			roleName: 'Visitor',
-    // 		},
-    // 	]);
-    // })
     .then(() => {
+    permission_model_1.Permission.belongsToMany(Role, { through: 'rolePermission' });
+    Role.belongsToMany(permission_model_1.Permission, { through: 'rolePermission' });
     console.log(Role === index_1.sequelize.models.Role, 'Role model created');
 })
     .catch((err) => console.log(err));
