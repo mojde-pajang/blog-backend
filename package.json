@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
-    "start": "yarn run build && node build/index.js",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "build": "npx rimraf ./build && tsc",
+  "start": "yarn run build && node build/index.js",
+  "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/mojde.pajang/blog.git"
