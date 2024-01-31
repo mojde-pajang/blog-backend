@@ -4,6 +4,9 @@ const { DataTypes, Model } = require('sequelize');
 
 export class User extends Model {}
 
+Role.hasOne(User);
+User.belongsTo(Role);
+
 User.init(
 	{
 		id: {
@@ -52,9 +55,6 @@ User.init(
 		sequelize,
 	},
 );
-
-Role.hasOne(User);
-User.belongsTo(Role);
 
 User.sync({ alter: true })
 	.then(() => {

@@ -5,6 +5,12 @@ const { DataTypes, Model } = require('sequelize');
 
 export class Post extends Model {}
 
+User.hasMany(Post);
+Post.belongsTo(User);
+
+Gallery.hasOne(Post);
+Post.belongsTo(Gallery);
+
 Post.init(
 	{
 		id: {
@@ -23,12 +29,6 @@ Post.init(
 		sequelize,
 	},
 );
-
-User.hasMany(Post);
-Post.belongsTo(User);
-
-Gallery.hasOne(Post);
-Post.belongsTo(Gallery);
 
 Post.sync({ alter: true })
 	// .then(() => {
