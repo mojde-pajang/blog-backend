@@ -68,7 +68,7 @@ fastify.register(require('./routes'));
 // Run the server!
 const port = parseInt(process.env.PORT ?? '3000');
 fastify
-	.listen({ port })
+	.listen({ port, host: '0.0.0.0' })
 	.then(() => {
 		console.log(
 			`*********************************************\n*********************************************\n*********************************************`,
