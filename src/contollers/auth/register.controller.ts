@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify/types/instance';
 import { fastify } from '../../index';
 export const registerController = async (request: any, reply: any) => {
 	const { firstName, lastName, age, email, password, roleName } = request.body;
+	console.log(123, request.body);
 	const models = request.server.sequelize.models;
 	const userRole = roleName ? roleName : 'Visitor';
 
