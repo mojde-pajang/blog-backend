@@ -1,15 +1,15 @@
 import { dbInit } from '../db';
-
+import pgConnection from 'pg-connection-string';
 const { Sequelize } = require('sequelize');
 
 const fp = require('fastify-plugin');
 
 module.exports = fp(async function (fastify: any, opts: any, done: any) {
-	console.log(111, process.env.DATABASE_NAME, process.env.DATABASE_URL);
+	const dbConfig = pgConnection.parse(process.env.DATABASE_URL as string);
 	const sequelize = process.env.DATABASE_URL
 		? new Sequelize({
 				dialect: 'postgres',
-				connectionString: process.env.DATABASE_URL,
+				...dbConfig,
 				ssl: {
 					rejectUnauthorized: false,
 				},
