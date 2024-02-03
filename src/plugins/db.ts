@@ -12,7 +12,10 @@ module.exports = fp(async function (fastify: any, opts: any, done: any) {
 				dialect: 'postgres',
 				protocol: 'postgres',
 				dialectOptions: {
-					ssl: true,
+					ssl: {
+						require: true,
+						rejectUnauthorized: false,
+					},
 				},
 		  })
 		: new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
