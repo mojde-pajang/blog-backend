@@ -11,7 +11,9 @@ module.exports = fp(async function (fastify: any, opts: any, done: any) {
 		? new Sequelize(`${process.env.DATABASE_URL}?sslmode=require`, {
 				url: process.env.DATABASE_URL,
 				dialect: 'postgres',
-				ssl: true,
+				ssl: {
+					rejectUnauthorized: false,
+				},
 		  })
 		: new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
 				dialect: 'postgres',
