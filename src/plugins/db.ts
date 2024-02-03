@@ -9,10 +9,10 @@ module.exports = fp(async function (fastify: any, opts: any, done: any) {
 	console.log({ dbConfig });
 	const sequelize = process.env.DATABASE_URL
 		? new Sequelize(`${process.env.DATABASE_URL}`, {
-				url: process.env.DATABASE_URL,
 				dialect: 'postgres',
-				ssl: {
-					rejectUnauthorized: false,
+				protocol: 'postgres',
+				dialectOptions: {
+					ssl: true,
 				},
 		  })
 		: new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
