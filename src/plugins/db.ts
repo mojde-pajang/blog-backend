@@ -6,6 +6,7 @@ const fp = require('fastify-plugin');
 
 module.exports = fp(async function (fastify: any, opts: any, done: any) {
 	const dbConfig = pgConnection.parse(process.env.DATABASE_URL as string);
+	console.log({ dbConfig });
 	const sequelize = process.env.DATABASE_URL
 		? new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
 				dialect: 'postgres',
