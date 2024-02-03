@@ -6,6 +6,7 @@ export const registerController = async (request: any, reply: any) => {
 	console.log(123, request.body);
 
 	try {
+		console.log('models', request.server.sequelize.models);
 		const { User, Role } = request.server.sequelize.models;
 
 		const userExists = await User.findOne({ where: { email: email } });
