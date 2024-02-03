@@ -8,7 +8,7 @@ module.exports = fp(async function (fastify: any, opts: any, done: any) {
 	const dbConfig = pgConnection.parse(process.env.DATABASE_URL as string);
 	console.log({ dbConfig });
 	const sequelize = process.env.DATABASE_URL
-		? new Sequelize(`${process.env.DATABASE_URL}?sslmode=require`, {
+		? new Sequelize(`${process.env.DATABASE_URL}`, {
 				url: process.env.DATABASE_URL,
 				dialect: 'postgres',
 				ssl: {
