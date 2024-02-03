@@ -11,12 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginController = void 0;
 const __1 = require("../..");
-const user_model_1 = require("../../models/user.model");
 const loginController = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = request.body;
+    const { User } = request.server.sequelize.models;
     try {
-        const user = yield user_model_1.User.findOne({ where: { email } });
-        if (user) {
+        const user = yield User.findOne({ where: { email } });
+        if (user && user.password) {
             const result = yield __1.fastify.bcrypt.compare(password, user.password);
             if (result) {
                 const token = __1.fastify.jwt.sign({ userId: user.id, email: user.email });

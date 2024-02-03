@@ -1,11 +1,12 @@
 import { fastify } from '../..';
-import { User } from '../../models/user.model';
 
 export const loginController = async (request: any, reply: any) => {
 	const { email, password } = request.body;
+	const { User } = request.server.sequelize.models;
 	try {
 		const user = await User.findOne({ where: { email } });
-		if (user) {
+
+		if (user && user.password) {
 			const result = await fastify.bcrypt.compare(password, user.password);
 			if (result) {
 				const token = fastify.jwt.sign({ userId: user.id, email: user.email });

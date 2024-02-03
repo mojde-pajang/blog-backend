@@ -11,14 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const login_auth_controller_1 = require("../contollers/auth/login.auth.controller");
 const register_controller_1 = require("../contollers/auth/register.controller");
-const me_controller_1 = require("../contollers/user/me.controller");
 function auth(fastify, options) {
     return __awaiter(this, void 0, void 0, function* () {
+        fastify.addHook('preHandler', function (req, reply, done) {
+            //req.fastify = fastify.sequelize;
+            done();
+        });
         fastify.post('/register', register_controller_1.registerController);
         fastify.post('/login', login_auth_controller_1.loginController);
-        fastify.get('/me', {
-            onRequest: [fastify.authenticate, fastify.isAdmin],
-        }, me_controller_1.meController);
+        // fastify.get(
+        // 	'/me',
+        // 	{
+        // 		onRequest: [fastify.authenticate, fastify.isAdmin],
+        // 	},
+        // 	meController,
+        // );
     });
 }
 module.exports = auth;

@@ -8,10 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 function routes(fastify, options) {
     return __awaiter(this, void 0, void 0, function* () {
         fastify.register(require('./auth.routes'), { prefix: '/auth' });
-        fastify.register(require('./post.routes'), { prefix: '/post' });
+        //fastify.register(require('./post.routes'), { prefix: '/post' });
         fastify.get('/', function (request, reply) {
             return __awaiter(this, void 0, void 0, function* () {
                 return reply.send({ hello: 'world' });
@@ -24,4 +25,4 @@ function routes(fastify, options) {
         });
     });
 }
-module.exports = routes;
+exports.default = routes;

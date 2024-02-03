@@ -1,4 +1,4 @@
-import { sequelize } from './../index';
+const sequelizeFastify = require('sequelize-fastify');
 const { DataTypes, Model } = require('sequelize');
 
 export class Permission extends Model {}
@@ -21,7 +21,7 @@ Permission.init(
 		},
 	},
 	{
-		sequelize,
+		sequelizeFastify,
 	},
 );
 

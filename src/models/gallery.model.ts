@@ -1,5 +1,4 @@
-import { sequelize } from './../index';
-import { Post } from './post.model';
+const sequelizeFastify = require('sequelize-fastify');
 const { DataTypes, Model } = require('sequelize');
 
 export class Gallery extends Model {}
@@ -19,12 +18,12 @@ Gallery.init(
 		},
 	},
 	{
-		sequelize,
+		sequelizeFastify,
 	},
 );
 
 Gallery.sync({ alter: true })
 	.then(() => {
-		console.log(Gallery === sequelize.models.Gallery, 'Gallery model created');
+		console.log(Gallery === sequelizeFastify.models.Gallery, 'Gallery model created');
 	})
 	.catch((err: any) => console.log(err));

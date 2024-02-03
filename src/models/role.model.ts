@@ -1,11 +1,10 @@
-import { sequelize } from './../index';
-import { Permission } from './permission.model';
-const { DataTypes, Model } = require('sequelize');
+// user.model.controller.ts
+const { DataTypes } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
-export class Role extends Model {}
-
-Role.init(
-	{
+export function initializeRoleModel(sequelize: Sequelize) {
+	// Access the Sequelize instance from the Fastify instance decorator
+	const Role = sequelize.define('Role', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
@@ -22,16 +21,7 @@ Role.init(
 		description: {
 			type: DataTypes.STRING,
 		},
-	},
-	{
-		sequelize,
-	},
-);
+	});
 
-Role.sync({ alter: true })
-	.then(() => {
-		Permission.belongsToMany(Role, { through: 'rolePermission' });
-		Role.belongsToMany(Permission, { through: 'rolePermission' });
-		console.log(Role === sequelize.models.Role, 'Role model created');
-	})
-	.catch((err: any) => console.log(err));
+	return Role;
+}

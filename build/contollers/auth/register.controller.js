@@ -10,31 +10,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerController = void 0;
-const __1 = require("../..");
-const role_model_1 = require("../../models/role.model");
-const user_model_1 = require("../../models/user.model");
+const index_1 = require("../../index");
 const registerController = (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     const { firstName, lastName, age, email, password, roleName } = request.body;
+    const models = request.server.sequelize.models;
     const userRole = roleName ? roleName : 'Visitor';
     try {
-        const userExists = yield user_model_1.User.findOne({ where: { email: email } });
+        const userExists = yield models.User.findOne({ where: { email: email } });
         if (userExists) {
-            __1.fastify.log.error('Duplicate user');
+            index_1.fastify.log.error('Duplicate user');
             return reply.status(400).send({ message: 'user exists' });
         }
-        let role = yield role_model_1.Role.findOne({ where: { roleName: userRole } });
+        let role = yield models.Role.findOne({ where: { roleName: userRole } });
         if (!role) {
-            role = yield role_model_1.Role.findOrCreate({ where: { roleName: 'Visitor' } });
+            const [newRole, created] = yield models.Role.findOrCreate({ where: { roleName: 'Visitor' } });
+            role = newRole;
         }
-        const hashedPassword = yield __1.fastify.bcrypt.hash(password);
-        const newUser = yield user_model_1.User.create({
+        const hashedPassword = yield index_1.fastify.bcrypt.hash(password);
+        const newUser = yield models.User.create({
             firstName,
             lastName,
             age,
             email,
             password: hashedPassword,
         });
-        role.setUser(newUser);
+        newUser.setRole(role);
         return reply.status(200).send({ newUser });
     }
     catch (error) {

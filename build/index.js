@@ -27,9 +27,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sequelize = exports.uploadsFolder = exports.fastify = void 0;
+exports.uploadsFolder = exports.fastify = void 0;
 require('dotenv').config();
-// Import the framework and instantiate it
 const fastify_1 = __importDefault(require("fastify"));
 const fastify_bcrypt_1 = require("fastify-bcrypt");
 const jwt_1 = require("@fastify/jwt");
@@ -37,7 +36,6 @@ const cors_1 = __importDefault(require("@fastify/cors"));
 const fs = __importStar(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 require("dotenv/config");
-const { Sequelize } = require('sequelize');
 exports.fastify = (0, fastify_1.default)({
     logger: true,
 });
@@ -52,7 +50,6 @@ exports.fastify.register(cors_1.default, {
     methods: ['GET', 'POST'],
     credentials: true,
 });
-exports.fastify.register(require('fastify-axios'));
 exports.fastify.register(require('@fastify/multipart'), { attachFieldsToBody: true });
 // Set up the uploads folder
 exports.uploadsFolder = path_1.default.join(__dirname, '..', 'public/uploads');
@@ -62,29 +59,18 @@ exports.fastify.register(require('@fastify/static'), {
     root: exports.uploadsFolder,
     prefix: '/uploads',
 });
-exports.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
-    dialect: 'postgres',
-    host: process.env.DATABASE_HOST,
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_NAME,
-});
-// Declare a plugins
-exports.fastify.register(require('./plugins/auth'));
-// Declare a routes
+// Declare app plugins
+exports.fastify.register(require('./plugins/db'));
 exports.fastify.register(require('./routes'));
+//fastify.register(require('./plugins/auth'));
 // Run the server!
 const port = parseInt((_a = process.env.PORT) !== null && _a !== void 0 ? _a : '3000');
-exports.fastify
-    .listen({ port })
-    .then(() => {
+exports.fastify.listen({ port, host: '0.0.0.0' }, function (err, address) {
+    if (err) {
+        exports.fastify.log.error(err);
+        process.exit(1);
+    }
+    // Server is now listening on ${address}
+    console.log(`server runs in ${address}`);
     console.log(`*********************************************\n*********************************************\n*********************************************`);
-    return exports.sequelize.authenticate();
-})
-    .then(() => {
-    console.log(`Connection has been established successfully.`);
-    console.log('server runs in http://localhost:3000');
-    console.log(`*********************************************\n*********************************************\n*********************************************`);
-})
-    .catch((err) => {
-    exports.fastify.log.error(err);
 });

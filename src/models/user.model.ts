@@ -1,14 +1,9 @@
-import { sequelize } from './../index';
-import { Role } from './role.model';
-const { DataTypes, Model } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
-export class User extends Model {}
-
-Role.hasOne(User);
-User.belongsTo(Role);
-
-User.init(
-	{
+const { DataTypes } = require('sequelize');
+export function initializeUserModel(sequelize: Sequelize) {
+	// Define the User model
+	const User = sequelize.define('User', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
@@ -50,14 +45,7 @@ User.init(
 		token: {
 			type: DataTypes.STRING,
 		},
-	},
-	{
-		sequelize,
-	},
-);
+	});
 
-User.sync({ alter: true })
-	.then(() => {
-		console.log(User === sequelize.models.User);
-	})
-	.catch((err: any) => console.log(err));
+	return User;
+}

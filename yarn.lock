@@ -722,7 +722,7 @@ fastify-plugin@^2.3.1:
   dependencies:
     semver "^7.3.2"
 
-fastify-plugin@^3.0.0:
+fastify-plugin@^3.0.0, fastify-plugin@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-3.0.1.tgz#79e84c29f401020f38b524f59f2402103fd21ed2"
   integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
@@ -1595,10 +1595,40 @@ send@^0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
+sequelize-fastify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/sequelize-fastify/-/sequelize-fastify-2.0.0.tgz#cf71889b7f896e802a66dbe7ccbe6cd3c180c16d"
+  integrity sha512-DeN8JJLs26kA9OIdCQnB3F6UsPL0sWtb6KlRf2VbeRhgS4rkk6u5qXI/WL11qTpgEsjcLxYefwGbzaeHEGPKJA==
+  dependencies:
+    fastify-plugin "^3.0.1"
+    sequelize "^6.20.1"
+
 sequelize-pool@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-7.1.0.tgz#210b391af4002762f823188fd6ecfc7413020768"
   integrity sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==
+
+sequelize@^6.20.1:
+  version "6.35.2"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.35.2.tgz#9276d24055a9a07bd6812c89ab402659f5853e70"
+  integrity sha512-EdzLaw2kK4/aOnWQ7ed/qh3B6/g+1DvmeXr66RwbcqSm/+QRS9X0LDI5INBibsy4eNJHWIRPo3+QK0zL+IPBHg==
+  dependencies:
+    "@types/debug" "^4.1.8"
+    "@types/validator" "^13.7.17"
+    debug "^4.3.4"
+    dottie "^2.0.6"
+    inflection "^1.13.4"
+    lodash "^4.17.21"
+    moment "^2.29.4"
+    moment-timezone "^0.5.43"
+    pg-connection-string "^2.6.1"
+    retry-as-promised "^7.0.4"
+    semver "^7.5.4"
+    sequelize-pool "^7.1.0"
+    toposort-class "^1.0.1"
+    uuid "^8.3.2"
+    validator "^13.9.0"
+    wkx "^0.5.0"
 
 sequelize@^6.35.1:
   version "6.35.1"

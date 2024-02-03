@@ -1,5 +1,4 @@
 require('dotenv').config();
-// Import the framework and instantiate it
 import Fastify from 'fastify';
 import { fastifyBcrypt } from 'fastify-bcrypt';
 import { fastifyJwt } from '@fastify/jwt';
@@ -7,8 +6,8 @@ import cors from '@fastify/cors';
 import * as fs from 'fs-extra';
 import path from 'path';
 import 'dotenv/config';
+import { dbInit } from './db';
 
-const { Sequelize } = require('sequelize');
 export const fastify = Fastify({
 	logger: true,
 });
@@ -33,8 +32,6 @@ fastify.register(cors, {
 	credentials: true,
 });
 
-fastify.register(require('fastify-axios'));
-
 fastify.register(require('@fastify/multipart'), { attachFieldsToBody: true });
 
 // Set up the uploads folder
@@ -47,41 +44,23 @@ fastify.register(require('@fastify/static'), {
 	prefix: '/uploads',
 });
 
-export const sequelize = new Sequelize(
-	process.env.DATABASE_NAME,
-	process.env.DATABASE_USERNAME,
-	process.env.DATABASE_PASSWORD,
-	{
-		dialect: 'postgres',
-		host: process.env.DATABASE_HOST,
-		port: process.env.DATABASE_PORT,
-		database: process.env.DATABASE_NAME,
-	},
-);
-
-// Declare a plugins
-fastify.register(require('./plugins/auth'));
-
-// Declare a routes
+// Declare app plugins
+fastify.register(require('./plugins/db'));
 fastify.register(require('./routes'));
+
+//fastify.register(require('./plugins/auth'));
 
 // Run the server!
 const port = parseInt(process.env.PORT ?? '3000');
-fastify
-	.listen({ port, host: '0.0.0.0' })
-	.then(() => {
-		console.log(
-			`*********************************************\n*********************************************\n*********************************************`,
-		);
-		return sequelize.authenticate();
-	})
-	.then(() => {
-		console.log(`Connection has been established successfully.`);
-		console.log('server runs in http://localhost:3000');
-		console.log(
-			`*********************************************\n*********************************************\n*********************************************`,
-		);
-	})
-	.catch((err) => {
+
+fastify.listen({ port, host: '0.0.0.0' }, function (err, address) {
+	if (err) {
 		fastify.log.error(err);
-	});
+		process.exit(1);
+	}
+	// Server is now listening on ${address}
+	console.log(`server runs in ${address}`);
+	console.log(
+		`*********************************************\n*********************************************\n*********************************************`,
+	);
+});
