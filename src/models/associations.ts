@@ -1,20 +1,22 @@
 import { Sequelize } from 'sequelize';
 
-export function defineAssociations(sequelize: Sequelize) {
-	const { Role, User } = sequelize.models;
+export async function defineAssociations(sequelize: Sequelize) {
+	const { Role, User, Post, Gallery } = sequelize.models;
+	console.log(222, sequelize.models);
 	Role.hasMany(User);
 	User.belongsTo(Role);
 
-	// Sync the Role model with the database
-	Role.sync({ alter: true })
-		.then(() => {
-			console.log(Role === sequelize.models.Role);
-		})
-		.catch((err: any) => console.log(err));
+	User.hasMany(Post);
+	Post.belongsTo(User);
 
-	User.sync({ alter: true })
-		.then(() => {
-			console.log(User === sequelize.models.User);
-		})
-		.catch((err: any) => console.log(err));
+	Gallery.hasOne(Post);
+	Post.belongsTo(Gallery);
+
+	// Sync the Role model with the database
+	try {
+		await sequelize.sync({ alter: true });
+	} catch (error) {
+		console.log(error);
+		throw new Error('Problem in synchronization!');
+	}
 }

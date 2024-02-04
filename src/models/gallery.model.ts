@@ -1,10 +1,9 @@
-const sequelizeFastify = require('sequelize-fastify');
-const { DataTypes, Model } = require('sequelize');
+import { Sequelize } from 'sequelize';
+const { DataTypes } = require('sequelize');
 
-export class Gallery extends Model {}
-
-Gallery.init(
-	{
+export function initializeGalleryModel(sequelize: Sequelize) {
+	// Access the Sequelize instance from the Fastify instance decorator
+	const Gallery = sequelize.define('Gallery', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
@@ -16,14 +15,7 @@ Gallery.init(
 		imageUrl: {
 			type: DataTypes.TEXT,
 		},
-	},
-	{
-		sequelizeFastify,
-	},
-);
+	});
 
-Gallery.sync({ alter: true })
-	.then(() => {
-		console.log(Gallery === sequelizeFastify.models.Gallery, 'Gallery model created');
-	})
-	.catch((err: any) => console.log(err));
+	return Gallery;
+}
