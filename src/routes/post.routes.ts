@@ -14,6 +14,7 @@ async function postRoutes(fastify: any, options: any) {
 		},
 		createPost,
 	);
+
 	fastify.post(
 		'/ai',
 		{
@@ -21,8 +22,10 @@ async function postRoutes(fastify: any, options: any) {
 		},
 		createPostWithAI,
 	);
+
 	fastify.get('/all', allPosts);
 	fastify.get('/:id', detailPost);
+
 	fastify.put(
 		'/:id',
 		{
@@ -30,6 +33,7 @@ async function postRoutes(fastify: any, options: any) {
 		},
 		editPost,
 	);
+
 	fastify.delete(
 		'/:id',
 		{
@@ -37,13 +41,14 @@ async function postRoutes(fastify: any, options: any) {
 		},
 		deletePost,
 	);
-	fastify.post(
-		'/upload',
-		{
-			onRequest: [fastify.authenticate, fastify.isAdmin],
-		},
-		uploadPostImage,
-	);
+
+	// fastify.post(
+	// 	'/upload',
+	// 	{
+	// 		onRequest: [fastify.authenticate, fastify.isAdmin],
+	// 	},
+	// 	uploadPostImage,
+	// );
 }
 
 module.exports = postRoutes;

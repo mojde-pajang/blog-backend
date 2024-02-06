@@ -46,9 +46,8 @@ fastify.register(require('@fastify/static'), {
 
 // Declare app plugins
 fastify.register(require('./plugins/db'));
+fastify.register(require('./plugins/auth'));
 fastify.register(require('./routes'));
-
-//fastify.register(require('./plugins/auth'));
 
 // Run the server!
 const port = parseInt(process.env.PORT ?? '3000');
