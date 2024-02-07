@@ -18,7 +18,6 @@ export const createPostWithAI = async (request: any, reply: any) => {
 	const { title, imageDescription } = request.body;
 	try {
 		const { Post, Gallery } = request.server.sequelize.models;
-
 		if (request.isAdmin) {
 			const openai = new OpenAI({
 				apiKey: process.env['OPENAI_API_KEY'],
@@ -32,7 +31,6 @@ export const createPostWithAI = async (request: any, reply: any) => {
 				],
 				model: 'gpt-3.5-turbo',
 			});
-
 			const image = await openai.images.generate({
 				model: 'dall-e-3',
 				prompt: imageDescription,

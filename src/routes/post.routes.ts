@@ -41,14 +41,6 @@ async function postRoutes(fastify: any, options: any) {
 		},
 		deletePost,
 	);
-
-	// fastify.post(
-	// 	'/upload',
-	// 	{
-	// 		onRequest: [fastify.authenticate, fastify.isAdmin],
-	// 	},
-	// 	uploadPostImage,
-	// );
 }
 
 module.exports = postRoutes;

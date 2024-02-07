@@ -12,7 +12,7 @@ module.exports = fp(async function (fastify: any, opts: any, done: any) {
 
 	fastify.decorate('isAdmin', async function (request: any, reply: any) {
 		try {
-			const { User, Role } = fastify.sequelize;
+			const { User, Role } = fastify.sequelize.models;
 			const { email } = await request.jwtDecode();
 			const user = await User.findOne({ where: { email: email }, include: Role });
 			return (request.isAdmin = 'Admin' === user.Role.roleName);
