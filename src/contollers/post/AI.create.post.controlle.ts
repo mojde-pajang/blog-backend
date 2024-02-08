@@ -14,6 +14,27 @@ type payload = {
 		imageUrl: string;
 	};
 };
+
+function isJson(str: string) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
+function parsIt(str: string | null) {
+	if (str) {
+		if (isJson(str)) {
+			return JSON.parse(str);
+		}
+		const a = str.replace(/\n/g, '');
+		if (isJson(a)) {
+			return JSON.parse(a);
+		}
+	}
+	return Boolean(str);
+}
 export const createPostWithAI = async (request: any, reply: any) => {
 	const { title, imageDescription } = request.body;
 	try {
@@ -44,11 +65,13 @@ export const createPostWithAI = async (request: any, reply: any) => {
 			const fileName = uuidv4() + '.png';
 			const filePath = path.join(uploadsFolder, fileName);
 			const uploaded = await fs.writeFile(filePath, buffer);
+			console.log(444, completion.choices[0].message);
 			const content = completion.choices[0].message.content;
-			const a = JSON.parse(content ? content : '');
-			if (content) {
-				const postTitle = a?.title;
-				const postIntroduction = a?.introduction;
+			const parsedContent = parsIt(content);
+			console.log(5555, parsedContent);
+			if (parsedContent) {
+				const postTitle = parsedContent?.title;
+				const postIntroduction = parsedContent?.introduction;
 				const payload: payload = {
 					title: postTitle,
 					description: postIntroduction,

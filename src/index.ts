@@ -28,7 +28,7 @@ fastify.register(fastifyJwt, {
 
 fastify.register(cors, {
 	origin: '*',
-	methods: ['GET', 'POST'],
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 	credentials: true,
 });
 
