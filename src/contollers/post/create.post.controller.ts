@@ -14,7 +14,8 @@ export const createPost = async (request: any, reply: any) => {
 	const { title, description } = request.body;
 	try {
 		const { Post, Gallery } = request.server.sequelize.models;
-		if (request.isAdmin) {
+		const admin = request.isAdmin;
+		if (admin) {
 			// Process image upload
 			const uploadImage = await request.body.image;
 			const filename = uploadImage?.filename;
@@ -42,6 +43,8 @@ export const createPost = async (request: any, reply: any) => {
 			const newPost = await Post.create(payload, {
 				include: [Gallery],
 			});
+
+			admin.addPost(newPost);
 
 			return reply.status(200).send({ newPost });
 		}

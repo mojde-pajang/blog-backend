@@ -39,7 +39,8 @@ export const createPostWithAI = async (request: any, reply: any) => {
 	const { title, imageDescription } = request.body;
 	try {
 		const { Post, Gallery } = request.server.sequelize.models;
-		if (request.isAdmin) {
+		const admin = request.isAdmin;
+		if (admin) {
 			const openai = new OpenAI({
 				apiKey: process.env['OPENAI_API_KEY'],
 			});
@@ -61,6 +62,7 @@ export const createPostWithAI = async (request: any, reply: any) => {
 			const image_url: any = image.data[0].url;
 			const response = await axios.get(image_url, { responseType: 'arraybuffer' });
 			const buffer = Buffer.from(response.data, 'utf-8');
+
 			// Save the file to the uploads folder
 			const fileName = uuidv4() + '.png';
 			const filePath = path.join(uploadsFolder, fileName);
@@ -83,7 +85,7 @@ export const createPostWithAI = async (request: any, reply: any) => {
 				const newPost = await Post.create(payload, {
 					include: [Gallery],
 				});
-
+				admin.addPost(newPost);
 				return reply.status(StatusCodes.OK).send({ newPost });
 			} else {
 				return reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: 'AI is not available' });

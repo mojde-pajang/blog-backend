@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 
 export async function defineAssociations(sequelize: Sequelize) {
 	const { Role, User, Post, Gallery } = sequelize.models;
-	console.log(222, sequelize.models);
+
 	Role.hasMany(User);
 	User.belongsTo(Role);
 

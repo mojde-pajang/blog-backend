@@ -15,7 +15,7 @@ module.exports = fp(async function (fastify: any, opts: any, done: any) {
 			const { User, Role } = fastify.sequelize.models;
 			const { email } = await request.jwtDecode();
 			const user = await User.findOne({ where: { email: email }, include: Role });
-			return (request.isAdmin = 'Admin' === user.Role.roleName);
+			return (request.isAdmin = 'Admin' === user.Role.roleName ? user : false);
 		} catch (err) {
 			reply.status(401).send(err);
 		}
